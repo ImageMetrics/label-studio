@@ -4,7 +4,7 @@ name: Deploy Label Studio
 on:
   push:
     branches:
-      - 'main'
+      - 'feature/*'
   workflow_dispatch:
     inputs:
       BuildPushImage:
@@ -43,7 +43,7 @@ jobs:
         env:
           REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           REPOSITORY: im-label-studio
-          IMAGE_TAG: ${{ github.sha }}
+          IMAGE_TAG: 'latest'
         run: |
           docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
           docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
