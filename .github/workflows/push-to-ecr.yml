@@ -19,7 +19,7 @@ permissions:
 
 jobs:
   DeployLabelStudio:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu:20.04
     # These permissions are needed to interact with GitHub's OIDC Token endpoint.
     if: (github.event_name == 'workflow_dispatch' && (github.event.inputs.BuildPushImage == 'true')) || github.event_name == 'push'
     steps:
