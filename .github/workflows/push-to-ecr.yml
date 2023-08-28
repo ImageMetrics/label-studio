@@ -45,6 +45,6 @@ jobs:
           REPOSITORY: im-label-studio
           IMAGE_TAG: 'latest'
         run: |
-          docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
+          scripts/build_docker.sh
           docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
           echo "::set-output name=image::$REGISTRY/$REPOSITORY:$IMAGE_TAG"
