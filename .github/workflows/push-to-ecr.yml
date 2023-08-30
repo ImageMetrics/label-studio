@@ -4,7 +4,7 @@ name: Deploy Label Studio
 on:
   push:
     branches:
-      - 'main'
+      - 'feature/*'
   workflow_dispatch:
     inputs:
       BuildPushImage:
