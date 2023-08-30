@@ -76,6 +76,7 @@ if not logging.getLogger().hasHandlers():
 
 from label_studio.core.utils.io import get_data_dir
 from label_studio.core.utils.params import get_bool_env, get_env, get_env_list_int
+from label_studio.core.utils.secret_key import generate_secret_key_if_missing
 
 logger = logging.getLogger(__name__)
 SILENCED_SYSTEM_CHECKS = []
@@ -104,9 +105,6 @@ if HOSTNAME:
 
 INTERNAL_PORT = '8080'
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '$(fefwefwef13;LFK{P!)@#*!)kdsjfWF2l+i5e3t(8a1n'
-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = get_bool_env('DEBUG', True)
 DEBUG_MODAL_EXCEPTIONS = get_bool_env('DEBUG_MODAL_EXCEPTIONS', True)
@@ -118,6 +116,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DATA_DIR = get_env('BASE_DATA_DIR', get_data_dir())
 os.makedirs(BASE_DATA_DIR, exist_ok=True)
 logger.info('=> Database and media directory: %s', BASE_DATA_DIR)
+
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = generate_secret_key_if_missing(BASE_DATA_DIR)
 
 # Databases
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
@@ -406,8 +407,6 @@ AVATAR_PATH = 'avatars'
 
 SUPPORTED_EXTENSIONS = set(
     [
-        '.aiff',
-        '.au',
         '.bmp',
         '.csv',
         '.flac',
@@ -580,6 +579,9 @@ FEATURE_FLAGS_FILE = get_env('FEATURE_FLAGS_FILE', 'feature_flags.json')
 FEATURE_FLAGS_OFFLINE = get_bool_env('FEATURE_FLAGS_OFFLINE', True)
 # default value for feature flags (if not overridden by environment or client)
 FEATURE_FLAGS_DEFAULT_VALUE = False
+
+# Whether to send analytics telemetry data
+COLLECT_ANALYTICS = get_bool_env('collect_analytics', True)
 
 # Strip harmful content from SVG files by default
 SVG_SECURITY_CLEANUP = get_bool_env('SVG_SECURITY_CLEANUP', False)
